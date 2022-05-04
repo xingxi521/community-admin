@@ -48,5 +48,7 @@ export default {
   TagManagement: 'TagManagement',
   PostDetails: 'PostDetails',
   User: 'User',
-  UserIndex: 'UserManagement'
+  UserIndex: 'UserManagement',
+  Menu: 'MenuSetting',
+  MenuIndex: 'MenuManagement'
 }

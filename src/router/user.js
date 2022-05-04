@@ -4,8 +4,8 @@ export default [
     path: '/user',
     name: 'User',
     meta: {
-      icon: 'ios-peopl',
-      title: '用户管理'
+      icon: 'ios-people',
+      title: '用户相关'
     },
     component: Main,
     children: [
@@ -13,7 +13,7 @@ export default [
         path: 'index',
         name: 'UserIndex',
         meta: {
-          icon: 'ios-paper',
+          icon: 'ios-people',
           title: '用户管理'
         },
         component: () => import('@/view/User/User')

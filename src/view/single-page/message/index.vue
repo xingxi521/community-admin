@@ -4,30 +4,29 @@
       <div class="message-page-con message-category-con">
         <Menu width="auto" active-name="unread" @on-select="handleSelect">
           <MenuItem name="unread">
-            <span class="category-title">未读消息</span><Badge style="margin-left: 10px" :count="messageUnreadCount" />
+            <span class="category-title">未读消息</span><Badge style="margin-left: 10px" :count="messageUnreadCount"></Badge>
           </MenuItem>
           <MenuItem name="readed">
-            <span class="category-title">已读消息</span><Badge style="margin-left: 10px" class-name="gray-dadge" :count="messageReadedCount" />
+            <span class="category-title">已读消息</span><Badge style="margin-left: 10px" class-name="gray-dadge" :count="messageReadedCount"></Badge>
           </MenuItem>
           <MenuItem name="trash">
-            <span class="category-title">回收站</span><Badge style="margin-left: 10px" class-name="gray-dadge" :count="messageTrashCount" />
+            <span class="category-title">回收站</span><Badge style="margin-left: 10px" class-name="gray-dadge" :count="messageTrashCount"></Badge>
           </MenuItem>
         </Menu>
       </div>
       <div class="message-page-con message-list-con">
-        <Spin v-if="listLoading" fix size="large" />
+        <Spin fix v-if="listLoading" size="large"></Spin>
         <Menu
           width="auto"
           active-name=""
           :class="titleClass"
           @on-select="handleView"
         >
-          <MenuItem v-for="item in messageList" :key="`msg_${item.msg_id}`" :name="item.msg_id">
+          <MenuItem v-for="item in messageList" :name="item.msg_id" :key="`msg_${item.msg_id}`">
             <div>
               <p class="msg-title">{{ item.title }}</p>
               <Badge status="default" :text="item.create_time" />
               <Button
-                v-show="currentMessageType !== 'unread'"
                 style="float: right;margin-right: 20px;"
                 :style="{ display: item.loading ? 'inline-block !important' : '' }"
                 :loading="item.loading"
@@ -35,18 +34,19 @@
                 :icon="currentMessageType === 'readed' ? 'md-trash' : 'md-redo'"
                 :title="currentMessageType === 'readed' ? '删除' : '还原'"
                 type="text"
-                @click.native.stop="removeMsg(item)" />
+                v-show="currentMessageType !== 'unread'"
+                @click.native.stop="removeMsg(item)"></Button>
             </div>
           </MenuItem>
         </Menu>
       </div>
       <div class="message-page-con message-view-con">
-        <Spin v-if="contentLoading" fix size="large" />
+        <Spin fix v-if="contentLoading" size="large"></Spin>
         <div class="message-view-header">
           <h2 class="message-view-title">{{ showingMsgItem.title }}</h2>
           <time class="message-view-time">{{ showingMsgItem.create_time }}</time>
         </div>
-        <div v-html="messageContent" />
+        <div v-html="messageContent"></div>
       </div>
     </div>
   </Card>
@@ -60,7 +60,7 @@ const listDic = {
   trash: 'messageTrashList'
 }
 export default {
-  name: 'MessagePage',
+  name: 'message_page',
   data () {
     return {
       listLoading: true,
@@ -84,7 +84,7 @@ export default {
         }
       }
     }),
-    ...mapGetters('user', [
+    ...mapGetters([
       'messageUnreadCount',
       'messageReadedCount',
       'messageTrashCount'
@@ -94,7 +94,7 @@ export default {
     ...mapMutations([
       //
     ]),
-    ...mapActions('user', [
+    ...mapActions([
       'getContentByMsgId',
       'getMessageList',
       'hasRead',

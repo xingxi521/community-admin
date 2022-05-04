@@ -47,6 +47,8 @@ export default {
   PostManagement: '文章管理',
   TagManagement: '标签管理',
   PostDetails: '文章详情',
-  User: '用户管理',
-  UserIndex: '用户管理'
+  User: '用户相关',
+  UserIndex: '用户管理',
+  Menu: '菜单设置',
+  MenuIndex: '菜单管理'
 }
