@@ -14,30 +14,33 @@
     <FormItem label="组件名称" prop="name">
       <Input v-model="form.name" placeholder="请输入前端组件名称" />
     </FormItem>
-    <FormItem label="前端组件" prop="component">
-      <Input v-model="form.component" placeholder="请输入前端组件文件路径">
-        <span slot="prepend">()=>import('@</span>
-        <span slot="append">.vue')</span>
-      </Input>
-    </FormItem>
-    <FormItem label="面包屑隐藏" prop="hideInBread">
-      <i-switch v-model="form.hideInBread">
-        <span slot="open">是</span>
-        <span slot="close">否</span>
-      </i-switch>
-    </FormItem>
-    <FormItem label="菜单隐藏" prop="hideInMenu">
-      <i-switch v-model="form.hideInMenu">
-        <span slot="open">是</span>
-        <span slot="close">否</span>
-      </i-switch>
-    </FormItem>
-    <FormItem label="页面不缓存" prop="notCache">
-      <i-switch v-model="form.notCache">
-        <span slot="open">是</span>
-        <span slot="close">否</span>
-      </i-switch>
-    </FormItem>
+    <template v-if="form.type !== MENU_TYPE.LINK">
+      <FormItem label="前端组件" prop="component">
+        <Input v-model="form.component" placeholder="请输入前端组件文件路径">
+          <span slot="prepend">()=>import('@</span>
+          <span slot="append">.vue')</span>
+        </Input>
+      </FormItem>
+      <FormItem label="面包屑隐藏" prop="hideInBread">
+        <i-switch v-model="form.hideInBread">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </FormItem>
+      <FormItem label="菜单隐藏" prop="hideInMenu">
+        <i-switch v-model="form.hideInMenu">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </FormItem>
+      <FormItem label="页面不缓存" prop="notCache">
+        <i-switch v-model="form.notCache">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </FormItem>
+    </template>
+
     <FormItem label="菜单图标" prop="icon">
       <Input v-model="form.icon" placeholder="请输入菜单显示图标（iview支持的icon才行）" />
     </FormItem>
@@ -76,6 +79,7 @@ export default {
   },
   data() {
     return {
+      MENU_TYPE,
       menuTypeOptions: MENU_TYPE.getLabelData(),
       // 表单校验规则
       rule: {

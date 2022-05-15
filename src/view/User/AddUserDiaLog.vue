@@ -24,7 +24,7 @@
       </FormItem>
       <FormItem label="角色" prop="role">
         <Select v-model="form.role" placeholder="请选择角色" multiple>
-          <Option v-for="item in userRoleOptions" :key="item.value" :value="item.value">{{ item.label }}</Option>
+          <Option v-for="item in userRoleOptions" :key="item._id" :value="item.code">{{ item.name }}</Option>
         </Select>
       </FormItem>
       <FormItem label="用户积分" prop="favs">
@@ -66,7 +66,6 @@
 /**
  * 新增、编辑用户
  */
-import { USER_ROLE } from '@/libs/const/user'
 import { createUser, updateUser } from '@/api/user'
 export default {
   name: 'AddUserDiaLog',
@@ -89,6 +88,11 @@ export default {
     type: {
       type: Number,
       default: 0
+    },
+    // 角色数据
+    userRoleOptions: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -115,8 +119,7 @@ export default {
         vip: [
           { required: true, message: '请选择是否vip', type: 'number', trigger: 'change' }
         ]
-      },
-      userRoleOptions: USER_ROLE.getLabelData(null, null, false)
+      }
     }
   },
   computed: {

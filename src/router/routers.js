@@ -2,6 +2,7 @@ import Main from '@/components/main'
 import contentRouter from './content'
 import userRouter from './user'
 import menuRouter from './menu'
+import RoleRouter from './role'
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
  * meta: {
@@ -54,6 +55,7 @@ export default [
   ...contentRouter,
   ...userRouter,
   ...menuRouter,
+  ...RoleRouter,
   {
     path: '/401',
     name: 'error_401',

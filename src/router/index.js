@@ -40,7 +40,6 @@ router.beforeEach((to, from, next) => {
       turnTo(to, store.state.user.access, next)
     } else {
       store.dispatch('user/getUserInfo').then(user => {
-        console.log(user.role)
         // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
         turnTo(to, user.role, next)
       }).catch(() => {

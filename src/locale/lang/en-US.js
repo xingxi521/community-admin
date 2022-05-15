@@ -50,5 +50,7 @@ export default {
   User: 'User',
   UserIndex: 'UserManagement',
   Menu: 'MenuSetting',
-  MenuIndex: 'MenuManagement'
+  MenuIndex: 'MenuManagement',
+  Role: 'Role',
+  RoleIndex: 'RoleManagement'
 }

@@ -24,9 +24,9 @@
         @pagination="onPageHandler"
       />
       <!-- 新增-编辑用户 -->
-      <AddUserDiaLog :add-show.sync="addShow" :add-form.sync="addForm" :type="diaLogType" />
+      <AddUserDiaLog :add-show.sync="addShow" :user-role-options="userRoleOptions" :add-form.sync="addForm" :type="diaLogType" />
       <!-- 批量设置 -->
-      <BatchSetDiaLog :add-show.sync="batchShow" @onSubmit="batchSetSubmit" />
+      <BatchSetDiaLog :add-show.sync="batchShow" :user-role-options="userRoleOptions" @onSubmit="batchSetSubmit" />
     </Card>
   </div>
 
@@ -38,6 +38,7 @@
  */
 import { USER_ROLE } from '@/libs/const/user'
 import dayjs from 'dayjs'
+import { getRoleName } from '@/api/role'
 import { getUserList, deleteUser, updateUser } from '@/api/user'
 export default {
   name: 'User',
@@ -174,13 +175,22 @@ export default {
           placeholder: '请选择创建时间',
           width: '100%'
         }
-      ]
+      ],
+      // 角色数据
+      userRoleOptions: []
     }
   },
   mounted() {
     this.getUserListRequest()
+    this.getRoleNameRequest()
   },
   methods: {
+    // 获取角色数据
+    getRoleNameRequest() {
+      getRoleName().then(res => {
+        this.userRoleOptions = res.data
+      })
+    },
     // 获取用户列表数据
     getUserListRequest(params = this.queryForm) {
       this.dataLoading = true

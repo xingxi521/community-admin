@@ -50,5 +50,7 @@ export default {
   User: '用户相关',
   UserIndex: '用户管理',
   Menu: '菜单设置',
-  MenuIndex: '菜单管理'
+  MenuIndex: '菜单管理',
+  Role: '权限管理',
+  RoleIndex: '角色权限'
 }

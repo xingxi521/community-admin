@@ -172,7 +172,25 @@ export function scrollToElem (elem, duration, offset) {
     }
   })
 }
-
+// 取出数组对象中的指定字段的值，返回一个数组或者一个字符串
+/**
+ *
+ * @param {Array} arr 数据源
+ * @param {String} key 需要取的字段名 也就是key
+ * @param {Boolean} isStr 是否返回字符串形式
+ * @returns 默认返回一个数组
+ */
+export function getFieldArr(arr, key, isStr) {
+  if (arr.length === 0) {
+    return isStr ? '' : []
+  } else {
+    var resultArr = []
+    arr.forEach(item => {
+      resultArr.push(item[key])
+    })
+  }
+  return isStr ? resultArr.join('-') : resultArr
+}
 // 从数组对象里根据key取出匹配的对象
 export function getObjByAttr (lst, originKey, originVal, isString) {
   if (!Array.isArray(lst)) {

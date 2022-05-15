@@ -6,7 +6,7 @@
     <Form ref="form" :model="form" :label-width="80">
       <FormItem label="角色" prop="role">
         <Select v-model="form.role" placeholder="请选择角色" multiple>
-          <Option v-for="item in userRoleOptions" :key="item.value" :value="item.value">{{ item.label }}</Option>
+          <Option v-for="item in userRoleOptions" :key="item._id" :value="item.code">{{ item.name }}</Option>
         </Select>
       </FormItem>
       <FormItem label="是否禁用" prop="status">
@@ -31,7 +31,6 @@
 /**
  * 批量设置弹窗
  */
-import { USER_ROLE } from '@/libs/const/user'
 export default {
   name: 'BatchSetDiaLog',
   props: {
@@ -39,11 +38,15 @@ export default {
     addShow: {
       type: Boolean,
       default: false
+    },
+    // 角色数据
+    userRoleOptions: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      userRoleOptions: USER_ROLE.getLabelData(null, null, false),
       form: {
         role: ['user'],
         status: -1,

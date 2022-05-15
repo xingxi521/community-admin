@@ -70,6 +70,9 @@ class HttpRequest {
         case 500:
           notifiyError(msg.msg)
           break
+        case 501:
+          notifiyError('你没有此接口操作权限！')
+          break
         default:
           notifiyError(msg)
           break
