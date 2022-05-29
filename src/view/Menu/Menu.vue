@@ -26,7 +26,7 @@
             </template>
             <template #action="slotProps">
               <Icon v-if="!editStatus" type="md-build" size="20" style="margin-right: 5px;" @click="updateResource(slotProps.row, slotProps.index)" />
-              <Icon v-if="!editStatus" type="md-trash" size="20" />
+              <Icon v-if="!editStatus" type="md-trash" size="20" @click="deleteResource(slotProps.index)" />
             </template>
           </Tables>
           <AddResourceDiaLog :add-show.sync="resourceShow" :add-form.sync="resourceForm" :type="resourceType" :edit.sync="editStatus" @onSubmit="resourceSubmit" />
@@ -210,6 +210,7 @@ export default {
     },
     // 新增资源按钮事件
     addResourceHandler() {
+      this.resourceForm = {}
       this.resourceShow = true
     },
     // 资源弹窗确定按钮事件
@@ -227,7 +228,7 @@ export default {
       this.resourceForm = { ...row }
       this.resourceShow = true
     },
-    // 删除按钮事件
+    // 树形删除按钮事件
     deleteHandler() {
       if (!this.selectTreeData.length) {
         this.notifiyWarning('请先选择菜单节点后再进行删除！')
@@ -241,6 +242,10 @@ export default {
           })
         }, () => {})
       }
+    },
+    // 资源表格删除按钮事件
+    deleteResource(idx) {
+      this.formData.operations.splice(idx, 1)
     }
   }
 }

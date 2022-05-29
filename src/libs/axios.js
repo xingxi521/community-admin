@@ -2,7 +2,7 @@ import axios from 'axios'
 import { notifiyError } from '@/libs/public'
 import configUrl from '@/config'
 import store from '@/store'
-import router from '@/router'
+import { router } from '@/router'
 import { getToken } from '@/libs/util'
 // const CancelToken = axios.CancelToken
 class HttpRequest {

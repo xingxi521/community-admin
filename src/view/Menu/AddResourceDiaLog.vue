@@ -119,6 +119,7 @@ export default {
     // 取消按钮事件
     cancelHandler() {
       this.modalShow = false
+      this.form = {}
     },
     // 确定按钮事件
     submitHandler() {
@@ -127,6 +128,7 @@ export default {
           if (valid) {
             this.$emit('onSubmit', { ...this.form }, this.type)
             this.$refs.form.resetFields()
+            this.form = {}
             this.modalShow = false
           } else {
             this.notifiyWarning('请填写完整再进行提交！')

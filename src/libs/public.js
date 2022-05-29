@@ -222,6 +222,7 @@ export function getAttrByAttr(lst, originKey, originVal, targetKey, defaultValue
   }
   return result
 }
+
 Vue.prototype.notifiyError = notifiyError
 Vue.prototype.notifiyWarning = notifiyWarning
 Vue.prototype.notifiySuccess = notifiySuccess

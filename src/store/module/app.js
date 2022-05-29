@@ -12,7 +12,7 @@ import {
   localRead
 } from '@/libs/util'
 import { saveErrorLogger } from '@/api/data'
-import router from '@/router'
+import { router } from '@/router'
 import routers from '@/router/routers'
 import config from '@/config'
 const { homeName } = config
@@ -34,10 +34,11 @@ export default {
     local: localRead('local'),
     errorList: [],
     hasReadErrorPage: false,
-    uuid: localStorage.getItem('uuid') || ''
+    uuid: localStorage.getItem('uuid') || '',
+    permission: []
   },
   getters: {
-    menuList: (state, getters, rootState) => getMenuByRouter(routers, rootState.user.access),
+    menuList: (state, getters, rootState) => getMenuByRouter(state.permission),
     errorCount: state => state.errorList.length
   },
   mutations: {
@@ -91,6 +92,10 @@ export default {
     // 设置UUID
     SET_UID(state, value) {
       state.uuid = value
+    },
+    // 设置路边表
+    SET_PERMISSION(state, value) {
+      state.permission = value
     }
   },
   actions: {
@@ -107,6 +112,41 @@ export default {
       saveErrorLogger(info).then(() => {
         commit('addError', data)
       })
+    },
+    // 路由表生成
+    generateRoutes({ commit }, permissions) {
+      return new Promise(resolve => {
+        let accessedRoutes
+        if (permissions && permissions.length > 0) {
+          accessedRoutes = filterAsyncRoutes(permissions)
+        }
+        // 解决刷新页面后会调到404页面的BUG
+        accessedRoutes.push({ path: '*', redirect: '/401', meta: {
+          hideInMenu: true
+        }})
+        const resultRoutes = accessedRoutes.concat(routers)
+        commit('SET_PERMISSION', resultRoutes || [])
+        resolve(accessedRoutes || [])
+      })
     }
+  }
+}
+const filterAsyncRoutes = (routeTable) => {
+  routeTable.forEach(item => {
+    item['component'] = loadView(item.component)
+    if (item.children && item.children.length > 0) {
+      filterAsyncRoutes(item.children)
+    } else {
+      delete item.children
+    }
+  })
+  return routeTable
+}
+const loadView = (view) => {
+  if (process.env.NODE_ENV === 'development') {
+    return (resolve) => require([`@/${view}`], resolve)
+  } else {
+    // 使用 import 实现生产环境的路由懒加载
+    return () => import(`@/${view}`)
   }
 }

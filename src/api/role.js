@@ -21,3 +21,19 @@ export function getRoleName () {
     method: 'get'
   })
 }
+
+// 获取前端路由表
+export function getMenuRouter () {
+  return axios.request({
+    url: '/role/getMenuRouter',
+    method: 'get'
+  })
+}
+// 删除角色
+export function deleteRole (data) {
+  return axios.request({
+    url: '/role/deleteRole',
+    method: 'post',
+    data
+  })
+}

@@ -52,5 +52,7 @@ export default {
   Menu: '菜单设置',
   MenuIndex: '菜单管理',
   Role: '权限管理',
-  RoleIndex: '角色权限'
+  RoleIndex: '角色权限',
+  Comment: '评论相关',
+  CommentIndex: '评论管理'
 }

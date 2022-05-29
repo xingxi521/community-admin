@@ -111,7 +111,6 @@ export default {
         this.formValidate = res.data
         this.formValidate.isEnd = this.formValidate.isEnd + ''
         this.formValidate.isTop = this.formValidate.isTop + ''
-        console.log(this.formValidate)
       })
     },
     // 取消按钮事件

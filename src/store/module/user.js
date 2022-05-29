@@ -11,6 +11,7 @@ import {
 } from '@/api/user'
 import { setToken, getToken } from '@/libs/util'
 import config from '@/config'
+import { resetRouter } from '@/router/index'
 export default {
   namespaced: true,
   state: {
@@ -99,6 +100,7 @@ export default {
         logout(state.token).then(() => {
           commit('setToken', '')
           commit('setAccess', [])
+          resetRouter()
           resolve()
         }).catch(err => {
           reject(err)

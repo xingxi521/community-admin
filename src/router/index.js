@@ -3,21 +3,17 @@ import Router from 'vue-router'
 import routes from './routers'
 import store from '@/store'
 import iView from 'view-design'
-import { setToken, getToken, canTurnTo, setTitle } from '@/libs/util'
+import { setToken, getToken, setTitle } from '@/libs/util'
+import { getMenuRouter } from '@/api/role'
 import config from '@/config'
 const { homeName } = config
 
 Vue.use(Router)
-const router = new Router({
+export const router = new Router({
   routes,
-  mode: 'history'
+  mode: 'hash'
 })
 const LOGIN_PAGE_NAME = 'login'
-
-const turnTo = (to, access, next) => {
-  if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
-  else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
-}
 
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
@@ -36,18 +32,11 @@ router.beforeEach((to, from, next) => {
       name: homeName // 跳转到homeName页
     })
   } else {
-    if (store.state.user.hasGetInfo) {
-      turnTo(to, store.state.user.access, next)
+    const hasPermission = store.state.app.permission && store.state.app.permission.length > 0
+    if (hasPermission) {
+      next()
     } else {
-      store.dispatch('user/getUserInfo').then(user => {
-        // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
-        turnTo(to, user.role, next)
-      }).catch(() => {
-        setToken('')
-        next({
-          name: 'login'
-        })
-      })
+      getPermission(next, to, from)
     }
   }
 })
@@ -58,4 +47,36 @@ router.afterEach(to => {
   window.scrollTo(0, 0)
 })
 
-export default router
+function getPermission(next, to, from) {
+  getMenuRouter().then((response) => {
+    if (response.data && response.data.length > 0) {
+      store.dispatch('user/getUserInfo').then(async user => {
+        const accessRoutes = await store.dispatch('app/generateRoutes', response.data)
+        accessRoutes.forEach(item => {
+          router.addRoute(item.name, item)
+        })
+        next({ ...to, replace: true })
+      }).catch(() => {
+        setToken('')
+        next({
+          name: 'login'
+        })
+      })
+    } else {
+      // 权限为空，跳到404，并清除掉token
+      next({ path: '/404' })
+      localStorage.removeItem('permissionList')
+      setToken('')
+      // router.push('/login')
+    }
+  }).catch(_ => {
+    iView.LoadingBar.finish()
+  })
+}
+export function resetRouter() {
+  const newRouter = new Router({
+    routes,
+    mode: 'hash'
+  })
+  router.matcher = newRouter.matcher // reset router
+}

@@ -1,23 +1,52 @@
 <template>
-    <div ref="dom"></div>
+  <div ref="dom" />
 </template>
 
 <script>
+import dayjs from 'dayjs'
+const labelOption = {
+  show: true,
+  position: 'top',
+  distance: 10,
+  align: 'center',
+  verticalAlign: 'middle',
+  rotate: 0,
+  formatter: '{c}',
+  fontSize: 12
+}
+// 前7天日期
+const dayArr = []
+for (let i = 0; i < 7; i++) {
+  const day = dayjs().subtract(i, 'd').format('YYYY-MM-DD')
+  dayArr.push(day)
+}
 import echarts from 'echarts'
 import { on, off } from '@/libs/tools'
+import { SERIES } from '@/libs/const/home'
 export default {
-  name: 'serviceRequests',
+  name: 'ServiceRequests',
+  props: {
+    series: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
       dom: null
     }
   },
-  methods: {
-    resize () {
-      this.dom.resize()
-    }
-  },
   mounted () {
+    const resultSeries = []
+    Object.keys(this.series).forEach(key => {
+      resultSeries.push({
+        name: SERIES.getDescFromValue(key),
+        type: 'bar',
+        barGap: 0,
+        label: labelOption,
+        data: this.series[key]
+      })
+    })
     const option = {
       tooltip: {
         trigger: 'axis',
@@ -38,8 +67,8 @@ export default {
       xAxis: [
         {
           type: 'category',
-          boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          axisTick: { show: false },
+          data: dayArr
         }
       ],
       yAxis: [
@@ -47,59 +76,7 @@ export default {
           type: 'value'
         }
       ],
-      series: [
-        {
-          name: '运营商/网络服务',
-          type: 'line',
-          stack: '总量',
-          areaStyle: { normal: {
-            color: '#2d8cf0'
-          } },
-          data: [120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-          name: '银行/证券',
-          type: 'line',
-          stack: '总量',
-          areaStyle: { normal: {
-            color: '#10A6FF'
-          } },
-          data: [257, 358, 278, 234, 290, 330, 310]
-        },
-        {
-          name: '游戏/视频',
-          type: 'line',
-          stack: '总量',
-          areaStyle: { normal: {
-            color: '#0C17A6'
-          } },
-          data: [379, 268, 354, 269, 310, 478, 358]
-        },
-        {
-          name: '餐饮/外卖',
-          type: 'line',
-          stack: '总量',
-          areaStyle: { normal: {
-            color: '#4608A6'
-          } },
-          data: [320, 332, 301, 334, 390, 330, 320]
-        },
-        {
-          name: '快递/电商',
-          type: 'line',
-          stack: '总量',
-          label: {
-            normal: {
-              show: true,
-              position: 'top'
-            }
-          },
-          areaStyle: { normal: {
-            color: '#398DBF'
-          } },
-          data: [820, 645, 546, 745, 872, 624, 258]
-        }
-      ]
+      series: resultSeries
     }
     this.$nextTick(() => {
       this.dom = echarts.init(this.$refs.dom)
@@ -109,6 +86,11 @@ export default {
   },
   beforeDestroy () {
     off(window, 'resize', this.resize)
+  },
+  methods: {
+    resize () {
+      this.dom.resize()
+    }
   }
 }
 </script>

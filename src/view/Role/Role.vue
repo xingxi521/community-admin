@@ -8,7 +8,7 @@
             角色列表
           </p>
           <Button slot="extra" type="primary" ghost size="small" :disabled="isEdit" @click="createRoleHandler"><Icon type="md-add" />新增</Button>
-          <RoleList :list-data="listData" :add-show.sync="addShow" @onNodeClick="onNodeClick" @onSubmit="onSubmitDiaLog" @onEdit="onEditHandler" />
+          <RoleList :list-data="listData" :add-show.sync="addShow" @onNodeClick="onNodeClick" @onSubmit="onSubmitDiaLog" @onEdit="onEditHandler" @onDelete="onDeleteHandler" />
         </Card>
       </Col>
       <Col span="6" :sm="24" :md="8" :lg="6">
@@ -47,7 +47,7 @@
 /**
  * 角色权限页面
  */
-import { getRoleList, addRole } from '@/api/role'
+import { getRoleList, addRole, deleteRole } from '@/api/role'
 import { getFieldArr } from '@/libs/public'
 export default {
   name: 'RoleIndex',
@@ -197,7 +197,6 @@ export default {
       const checkedNode = this.$refs.roleTree.getCheckedNodes()
       const checkedTreeNode = getFieldArr(checkedNode, '_id')
       const chekedResource = this.getMenuResource(checkedNode)
-      console.log(checkedTreeNode, chekedResource)
       addRole({
         _id: this.currentRole._id,
         menus: [...checkedTreeNode, ...chekedResource]
@@ -237,6 +236,17 @@ export default {
         }
       })
       return result
+    },
+    // 删除角色
+    onDeleteHandler(item) {
+      this.confirmBox(`确定要删除角色【${item.name}】吗？`, () => {
+        deleteRole({
+          _id: item._id
+        }).then(res => {
+          this.notifiySuccess(res.msg)
+          this.getRoleListRequest()
+        })
+      }, () => {})
     }
   }
 }

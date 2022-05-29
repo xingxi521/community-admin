@@ -134,7 +134,7 @@ export default {
           addTag(this.formValidate).then(res => {
             this.notifiySuccess(res.msg)
             this.getTagListRequest()
-            this.$refs.formValidate.resetFields()
+            this.formValidate = {}
             this.addShow = false
           })
         } else {
@@ -144,7 +144,7 @@ export default {
     },
     // 弹窗取消按钮事件
     cancelHandler() {
-      this.$refs.formValidate.resetFields()
+      this.formValidate = {}
       this.addShow = false
     },
     onPageHandler() {

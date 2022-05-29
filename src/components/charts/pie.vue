@@ -1,5 +1,5 @@
 <template>
-  <div ref="dom" class="charts chart-pie"></div>
+  <div ref="dom" class="charts chart-pie" />
 </template>
 
 <script>
@@ -12,16 +12,12 @@ export default {
   props: {
     value: Array,
     text: String,
-    subtext: String
+    subtext: String,
+    name: String
   },
   data () {
     return {
       dom: null
-    }
-  },
-  methods: {
-    resize () {
-      this.dom.resize()
     }
   },
   mounted () {
@@ -46,6 +42,7 @@ export default {
           {
             type: 'pie',
             radius: '55%',
+            name: this.name,
             center: ['50%', '60%'],
             data: this.value,
             itemStyle: {
@@ -65,6 +62,11 @@ export default {
   },
   beforeDestroy () {
     off(window, 'resize', this.resize)
+  },
+  methods: {
+    resize () {
+      this.dom.resize()
+    }
   }
 }
 </script>

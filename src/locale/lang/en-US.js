@@ -52,5 +52,7 @@ export default {
   Menu: 'MenuSetting',
   MenuIndex: 'MenuManagement',
   Role: 'Role',
-  RoleIndex: 'RoleManagement'
+  RoleIndex: 'RoleManagement',
+  Comment: 'Comment',
+  CommentIndex: 'CommentIndex'
 }

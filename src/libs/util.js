@@ -30,7 +30,7 @@ const showThisMenuEle = (item, access) => {
  * @param {Array} list 通过路由列表得到菜单列表
  * @returns {Array}
  */
-export const getMenuByRouter = (list, access) => {
+export const getMenuByRouter = (list) => {
   const res = []
   forEach(list, item => {
     if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
@@ -39,11 +39,11 @@ export const getMenuByRouter = (list, access) => {
         name: item.name,
         meta: item.meta
       }
-      if ((hasChild(item) || (item.meta && item.meta.showAlways)) && showThisMenuEle(item, access)) {
-        obj.children = getMenuByRouter(item.children, access)
+      if ((hasChild(item) || (item.meta && item.meta.showAlways))) {
+        obj.children = getMenuByRouter(item.children)
       }
       if (item.meta && item.meta.href) obj.href = item.meta.href
-      if (showThisMenuEle(item, access)) res.push(obj)
+      res.push(obj)
     }
   })
   return res

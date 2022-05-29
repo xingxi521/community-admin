@@ -53,11 +53,11 @@ export function addTag (data) {
 }
 
 // 删除标签
-export function deleteTag (params) {
+export function deleteTag (data) {
   return axios.request({
     url: '/tags/deleteTag',
-    method: 'get',
-    params
+    method: 'post',
+    data
   })
 }
 

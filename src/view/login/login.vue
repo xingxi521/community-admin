@@ -132,7 +132,7 @@ export default {
           }).then((res) => {
             this.$router.push({
               name: this.$config.homeName
-            })
+            }).catch(() => {})
           })
         } else {
           this.notifiyWarning('请输入好账号密码和验证码再进行登录！')

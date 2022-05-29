@@ -6,7 +6,7 @@
         <span class="role-i">
           <Icon type="ios-create" size="16" @click.stop="updateHandler(item, idx)" />
           <Icon type="md-build" size="16" color="#2D8CF0" @click.stop="editHandler(idx)" />
-          <Icon type="md-trash" size="16" color="#ED4041" />
+          <Icon type="md-trash" size="16" color="#ED4041" @click.stop="deleteHandler(item)" />
         </span>
       </li>
     </ul>
@@ -80,6 +80,10 @@ export default {
     editHandler(idx) {
       this.currentIndex = idx
       this.$emit('onEdit')
+    },
+    // 删除角色
+    deleteHandler(item) {
+      this.$emit('onDelete', item)
     }
   }
 }
