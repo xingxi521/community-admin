@@ -11,7 +11,7 @@ export const login = (data) => {
 // 获取用户列表
 export const getUserList = (data) => {
   return axios.request({
-    url: '/user/getUserList',
+    url: '/admin/getUserList',
     data,
     method: 'post'
   })
@@ -20,7 +20,7 @@ export const getUserList = (data) => {
 // 新增用户
 export const createUser = (data) => {
   return axios.request({
-    url: '/user/createUser',
+    url: '/admin/createUser',
     data,
     method: 'post'
   })
@@ -29,7 +29,7 @@ export const createUser = (data) => {
 // 新增用户
 export const updateUser = (data) => {
   return axios.request({
-    url: '/user/updateUser',
+    url: '/admin/updateUser',
     data,
     method: 'post'
   })
@@ -37,7 +37,7 @@ export const updateUser = (data) => {
 // 删除用户
 export const deleteUser = (data) => {
   return axios.request({
-    url: '/user/deleteUser',
+    url: '/admin/deleteUser',
     data,
     method: 'post'
   })
@@ -45,7 +45,7 @@ export const deleteUser = (data) => {
 
 export const getUserInfo = () => {
   return axios.request({
-    url: '/user/getUserInfo',
+    url: '/admin/getUserInfo',
     method: 'get'
   })
 }

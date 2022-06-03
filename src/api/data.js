@@ -3,7 +3,7 @@ import axios from '@/libs/api.request'
 // 获取文章列表分页数据
 export function getArticleList (data) {
   return axios.request({
-    url: '/public/list',
+    url: '/admin/list',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export function getArticleList (data) {
 // 删除文章
 export function deletePost (data) {
   return axios.request({
-    url: '/content/delPost',
+    url: '/admin/delPost',
     method: 'post',
     data
   })
@@ -20,7 +20,7 @@ export function deletePost (data) {
 // 获取文章详情
 export function getPostDetails (params) {
   return axios.request({
-    url: '/public/postDetails',
+    url: '/admin/postDetails',
     method: 'get',
     params
   })
@@ -28,7 +28,7 @@ export function getPostDetails (params) {
 // 更新文章详情
 export function updatePost (data) {
   return axios.request({
-    url: '/content/editPostManage',
+    url: '/admin/editPostManage',
     method: 'post',
     data
   })
