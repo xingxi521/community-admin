@@ -127,7 +127,7 @@ export default {
       })
     }
     // 获取未读消息条数
-    this.getUnreadMessageCount()
+    // this.getUnreadMessageCount()
   },
   methods: {
     ...mapMutations('app', [
@@ -139,7 +139,7 @@ export default {
       'closeTag'
     ]),
     ...mapActions('user', [
-      'getUnreadMessageCount',
+      // 'getUnreadMessageCount',
       'handleLogOut'
     ]),
     turnToPage (route) {

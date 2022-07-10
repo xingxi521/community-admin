@@ -38,12 +38,11 @@ export default {
       'SET_PERMISSION'
     ]),
     logout () {
-      this.handleLogOut().then(() => {
-        this.SET_PERMISSION(null)
-        localStorage.setItem('tagNaveList', JSON.stringify([]))
-        this.$router.push({
-          name: 'login'
-        })
+      this.handleLogOut()
+      this.SET_PERMISSION(null)
+      localStorage.setItem('tagNaveList', JSON.stringify([]))
+      this.$router.push({
+        name: 'login'
       })
     },
     message () {
